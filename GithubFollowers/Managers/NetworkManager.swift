@@ -6,13 +6,12 @@
 //  Copyright © 2020 Cognoa. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
-    
     static let shared = NetworkManager()
-    
-    let baseURL = "https://api.github.com/users/"
+    private let baseURL = "https://api.github.com/users/"
+    let cache   = NSCache<NSString, UIImage>()
     
     private init() { }
     
@@ -25,7 +24,7 @@ class NetworkManager {
         }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard error == nil else {
+            if let _ = error {
                 completed(.failure(.unableToComplete))
                 return
             }
